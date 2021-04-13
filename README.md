@@ -2,6 +2,10 @@
 
 Using Simulated Annealing(SA) 
 
+## readfile.txt
+
+Include fifty cities and its x and y coordinates
+
 ## Parameters
 
 Initial Temperature: 100
