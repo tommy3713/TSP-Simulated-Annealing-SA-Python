@@ -2,6 +2,8 @@
 
 Using Simulated Annealing(SA) 
 
+Start from city 1
+
 ## readfile.txt
 
 Include fifty cities and its x and y coordinates
