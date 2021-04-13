@@ -20,7 +20,7 @@ Number of Iterative: 1000
 
 
 ## 1. Run the program ：
-	python3 hw3.py
+	python3 TSP_SA.py
 
 ## 2. Two files will be generated：
  	a. draw.txt —> x and y cooridinates
