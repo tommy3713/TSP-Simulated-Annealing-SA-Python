@@ -9,7 +9,7 @@ real_sol=[]
 data_length=0
 data_int=[]
 
-#讀檔
+
 def readfile(file):
 	j=0;
 	i=0;
@@ -17,24 +17,24 @@ def readfile(file):
 
 
 	f=open(file,mode='r');
-	data_str=f.readlines()  #逐行讀取txt並存成list。每行是list的一個元素，資料型別為str
+	data_str=f.readlines()  
 	f.close();
 
-	#算出有幾個城市
+	#calculate the total number of cities
 	data_length=len(data_str); 
 	
-	#把資料轉成int，存到data_int
+	#change data type into int
 	for i in range(data_length): 
 		for j in range(len(list(data_str[0].split()))):
 			data_int.append(int(data_str[i].split(' ')[j]));
 
-	#把data_int轉成二維的
+	#change into 2D
 	city=np.zeros((data_length,3));
 	for i in range(data_length):
 		for j in range(3):
 			city[i][j]=data_int[i*3+j];
 
-	#算出個城市之間的距離
+	#calculate the distance from each cities
 	cost=np.zeros((data_length,data_length));
 	for i in range(data_length):
 		for j in range(i+1,data_length):
@@ -50,17 +50,17 @@ def SA(T,T_end,q,L,tmp_sol):
 	minTour=[]
 	while T >= T_end:
 		for i in range(L):
-			new_sol=create_new_sol(tmp_sol) #做一個新的路徑
-			f1=path_len(tmp_sol) #舊的路徑長
-			f2=path_len(new_sol) #新的路徑長
+			new_sol=create_new_sol(tmp_sol) #make a new route
+			f1=path_len(tmp_sol) #the distance of the old route
+			f2=path_len(new_sol) #the distance of the new route
 			df=f2-f1
-			if(df<0): #新的路徑比舊的好就取代
+			if(df<0): #if the distance of the new route is smaller than the old one, replace it.
 				tmp_sol=copy.deepcopy(new_sol)
 				if(f2<minCost):
 					minTour=copy.deepcopy(tmp_sol)
 					minCost=f2
 			else:
-				r=random.uniform(0.0,1.0) #如果比這個隨機數大就取代
+				r=random.uniform(0.0,1.0) #if it larger than this random number, replace it.
 				if(math.exp((f1-f2)/T)>=r):
 					tmp_sol=copy.deepcopy(new_sol)
 		T=T*q
@@ -68,11 +68,11 @@ def SA(T,T_end,q,L,tmp_sol):
 	return minTour
 
 
-#做一個隨機新的路徑
+#make a new random route
 def create_new_sol(tmp_sol):
 	new_sol=[]
 	new_sol=copy.deepcopy(tmp_sol)
-	#隨機生成兩個城市進行交換
+	#make two random cities and swap them.
 	index1=random.randint(1,data_length-2)
 	index2=random.randint(1,data_length-2)
 	tmp=new_sol[index1]
@@ -81,7 +81,7 @@ def create_new_sol(tmp_sol):
 
 	return new_sol
 
-#算出路徑長
+#calculate the distance of this path
 def path_len(path):
 	total_len=0.0
 	num_city=len(path)
@@ -94,7 +94,7 @@ def path_len(path):
 
 
 
-#把答案存起來
+#store the answer
 def writefile(city,real_sol,time_period):
 	f_draw = open('draw.txt', 'w')
 	f_output = open('output.txt','w')
@@ -121,18 +121,18 @@ if __name__=='__main__':
 	#Number of Iterative
 	L=1000
 
-	#記錄起始時間
+	#starting time
 	start_time=time.time()
-	#讀readfile.txt，算出個城市間的距離存在cost
+	
 	file = 'readfile.txt'
 	city,cost=readfile(file)
-	#做一個初始的答案:[1,2,3,4,5.....,end]
+	#make the first solution:[1,2,3,4,5.....,end]
 	tmp_sol=[]
 	for i in range(1,data_length+1):
 		tmp_sol.append(i)
 	#Simulated Annealing
 	minTour=SA(T,T_end,q,L,tmp_sol)
-	#回到城市原點
+	#bake to the starting city
 	minTour.append(1)
 	#Execution Time
 	Exe_time=time.time()-start_time
@@ -141,5 +141,5 @@ if __name__=='__main__':
 	print("Optimal Distance:",path_len(minTour))
 	print("Execution Time: ",Exe_time)
 
-	#寫入檔案
+	
 	writefile(city,minTour,Exe_time)
