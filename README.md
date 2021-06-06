@@ -1,4 +1,4 @@
-# TSP-Simulated-Annealing-SA-Python
+# TSP-Simulated-Annealing-Python
 
 Using Simulated Annealing(SA) 
 
